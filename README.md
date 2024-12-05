@@ -101,7 +101,7 @@ Este projeto foi criado como parte de um trabalho acadêmico para demonstrar hab
 
 Para facilitar o processo de instalação das dependências e execução do projeto, criamos um vídeo tutorial explicativo. Confira o passo a passo no YouTube:  
 
-🔗 [Como Instalar as Dependências e Executar o Banco de Ideias](https://www.youtube.com/link-do-video)
+🔗 [Como Instalar as Dependências e Executar o Banco de Ideias](https://youtu.be/kR4PoMzAVgM)
 
 O vídeo cobre os seguintes tópicos:
 1. Clonando o repositório.
