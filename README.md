@@ -14,6 +14,11 @@ Este projeto é um sistema para cadastro e gerenciamento de ideias de projetos. 
    - **Versão Requerida:** v16.0.0 ou superior  
    - **Link para Download:** [Node.js](https://nodejs.org/)
 
+2. **Git**
+   - **Nome:** Git
+   - **Versão Requerida:** v2.30 ou superior
+   - **Link para Download:** [Git](https://git-scm.com)
+
 2. **Bibliotecas Complementares**  
    As seguintes bibliotecas são utilizadas no projeto e serão instaladas automaticamente:
    - **React.js:** v18.x ([Documentação](https://reactjs.org/docs/getting-started.html))
