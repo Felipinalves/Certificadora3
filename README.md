@@ -1,7 +1,9 @@
 # Banco de Ideias
 Este projeto é um sistema para cadastro e gerenciamento de ideias de projetos. Foi desenvolvido em React com Firebase como base de dados e autenticação, e utiliza Node.js como ambiente de execução. Este repositório fornece todas as instruções necessárias para salvar o código, compilar o projeto, executar e testar o sistema.
 
+
 ---
+
 
 ## 🚀 Compilar e Executar o Sistema
 
@@ -39,7 +41,9 @@ npm install
 
 O projeto estará disponível em http://localhost:3000.
 
+
 ---
+
 
 ## 🧪 Testar o Sistema
 
@@ -58,12 +62,16 @@ Login e Cadastro de Usuários
 ### Contas de Acesso Padrão
 O sistema possui possibilidade de cadastro e login, então qualquer usuário pode testar as funcionalidades a partir do seu cadastramento na plataforma.
 
+
 ---
+
 
 ## 💡 Sobre
 Este projeto foi criado como parte de um trabalho acadêmico para demonstrar habilidades de desenvolvimento web utilizando React e Firebase. 
 
+
 ---
+
 
 ## 📺 Vídeo Tutorial
 
