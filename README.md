@@ -48,7 +48,7 @@ O projeto estará disponível em http://localhost:3000.
 ## 🧪 Testar o Sistema
 
 ### Equipe de Desenvolvimento
-Este projeto foi desenvolvido pela equipe Ideias em Ação.
+Este projeto foi desenvolvido pela equipe do Grupo 2.
 
 ### Objetivo do Sistema
 O objetivo do sistema é permitir que os usuários cadastrem ideias de projetos, visualizem detalhes, e gerenciem as informações de maneira centralizada.
@@ -58,6 +58,19 @@ Login e Cadastro de Usuários
 - Cadastro de projetos com nome e descrição;
 - Visualização e listagem de projetos;
 - Gerenciamento dos cargos dos usuários.
+
+### Roteiro para Testar
+- Cadastrar conta
+- Logar na conta
+- A partir da definição do cargo de administrador pela equipe diretamente no Firebase:
+   - Cadastrar um Projeto:
+      Na página inicial, clique no botão '+'.
+      Preencha o nome e a descrição do projeto.
+      Clique em "Salvar".
+   - Visualizar Projetos:
+      Após salvar, você será redirecionado para a página inicial, onde todos os projetos serão listados.
+- Acesse o seguinte link para analisar os usuários já cadastrados na plataforma e poder alterar seus cargos:
+     http://localhost:3000/manage-roles
 
 ### Contas de Acesso Padrão
 O sistema possui possibilidade de cadastro e login, então qualquer usuário pode testar as funcionalidades a partir do seu cadastramento na plataforma.
