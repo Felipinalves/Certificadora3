@@ -44,6 +44,12 @@ cd Certificadora3/certificadora3
 npm install
 ```
 
+### Execução do Projeto
+
+```bash
+npm start
+```
+
 O projeto estará disponível em http://localhost:3000.
 
 
