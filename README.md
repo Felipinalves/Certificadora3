@@ -65,7 +65,7 @@ Este projeto foi desenvolvido pela equipe do Grupo 2.
 O objetivo do sistema é permitir que os usuários cadastrem ideias de projetos, visualizem detalhes, e gerenciem as informações de maneira centralizada.
 
 ### Funcionalidades Desenvolvidas
-Login e Cadastro de Usuários
+- Login e Cadastro de Usuários
 - Cadastro de projetos com nome e descrição;
 - Visualização e listagem de projetos;
 - Gerenciamento dos cargos dos usuários.
