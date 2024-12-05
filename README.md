@@ -60,7 +60,7 @@ O sistema possui possibilidade de cadastro e login, então qualquer usuário pod
 
 ---
 
-##💡 Sobre
+## 💡 Sobre
 Este projeto foi criado como parte de um trabalho acadêmico para demonstrar habilidades de desenvolvimento web utilizando React e Firebase. 
 
 ---
