@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../firebase/firebaseConfig";
+import { auth, db } from "../firebase/firebaseConfig"; // Incluindo db para Firestore
+import { collection, doc, getDoc, setDoc } from "firebase/firestore"; // Métodos Firestore
 import { useNavigate } from "react-router-dom";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; // Ícones de visibilidade
-import { FcGoogle } from "react-icons/fc"; // Ícone do Google
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { FcGoogle } from "react-icons/fc";
 
 import background from "../images/login_background.png";
 import logo from "../images/logo.png";
-
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,19 +17,46 @@ const Login = () => {
   const navigate = useNavigate();
   const googleProvider = new GoogleAuthProvider();
 
+  // Função para verificar e salvar usuário no Firestore
+  const saveUserToFirestore = async (user) => {
+    const userRef = doc(collection(db, "usuarios"), user.uid);
+    const userSnap = await getDoc(userRef);
+
+    // Verifica se o usuário já existe no Firestore
+    if (!userSnap.exists()) {
+      try {
+        await setDoc(userRef, {
+          nome: user.displayName || "Usuário",
+          email: user.email,
+          foto: user.photoURL || "",
+          cargo: "membro externo", // Cargo padrão
+        });
+        console.log("Usuário salvo com sucesso.");
+      } catch (err) {
+        console.error("Erro ao salvar usuário:", err);
+      }
+    }
+  };
+
+  // Login com email e senha
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      await saveUserToFirestore(user); // Verifica e salva usuário
       navigate("/home");
     } catch (err) {
       setError("Falha ao fazer login. Verifique suas credenciais.");
     }
   };
 
+  // Login com Google
   const handleGoogleLogin = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      await saveUserToFirestore(user); // Verifica e salva usuário
       navigate("/home");
     } catch (err) {
       setError("Falha ao fazer login com o Google.");
@@ -44,7 +71,7 @@ const Login = () => {
       {/* Navbar */}
       <nav
         className="shadow-md py-4 px-6 flex justify-between items-center"
-        style={{ backgroundColor: "#5F328D" }}
+        style={{ backgroundColor: "#441870" }}
       >
         <div className="flex items-center">
           <img src={logo} alt="Logo do Projeto" className="w-10 h-10 mr-3" />
@@ -56,10 +83,10 @@ const Login = () => {
 
       {/* Login Form */}
       <div className="flex-grow flex items-center justify-center">
-        <div className="p-8 rounded-lg shadow-lg w-full max-w-sm" style={{backgroundColor:"#F5D7BC"}}>
+        <div className="p-8 rounded-lg shadow-lg w-full max-w-sm" style={{ backgroundColor: "#F5D7BC" }}>
           <h2
             className="text-2xl font-regular mb-6 text-center"
-            style={{ fontFamily: "Abril Fatface", fontSize: "40px", color:"#FEC745", textShadow: "-2px 2px #A85750" }}
+            style={{ fontFamily: "Abril Fatface", fontSize: "40px", color: "#FEC745", textShadow: "-2px 2px #A85750" }}
           >
             Login
           </h2>
@@ -98,7 +125,7 @@ const Login = () => {
             <button
               type="submit"
               className="w-full text-white py-2 rounded-md hover:bg-blue-600"
-              style={{backgroundColor:"#672883"}}
+              style={{ backgroundColor: "#672883" }}
             >
               Login
             </button>
@@ -120,7 +147,7 @@ const Login = () => {
             <button
               onClick={() => navigate("/signup")}
               className="underline"
-              style={{color:"#672883"}}
+              style={{ color: "#672883" }}
             >
               Inscrever-se
             </button>

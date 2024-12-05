@@ -48,7 +48,7 @@ const Signup = () => {
     >
       {/* Navbar */}
       <nav className="bg-white shadow-md py-4 px-6 flex justify-between items-center"
-      style={{ backgroundColor: "#5F328D" }}
+      style={{ backgroundColor: "#441870" }}
       >
         <div className="flex items-center">
           <img src={logo} alt="Logo do Projeto" className="w-10 h-10 mr-3" />
