@@ -88,7 +88,7 @@ const Home = () => {
   };
 
   return (
-    <div style={{ backgroundColor: "#5F328D", minHeight: "100vh" }}>
+    <div className="bg-[#5F328D] min-h-screen">
       {/* Navbar */}
       <nav
         className="shadow-md py-4 px-6 flex justify-between items-center"
@@ -144,23 +144,23 @@ const Home = () => {
         <input
           type="text"
           placeholder="Buscar projeto..."
-          className="border border-gray-300 rounded-md py-2 px-4 w-1/2"
+          className="border border-gray-300 rounded-md py-2 px-4  w-3/5 md:w-1/2"
           value={busca}
           onChange={(e) => setBusca(e.target.value)}
         />
       </div>
 
       {/* Carrossel */}
-      <div className="mt-8 flex justify-center items-center relative">
+      <div className="mt-8 wrap mx-8 md:mx-28 lg:mx-24 flex justify-center items-center relative">
         {projetos.length > 3 && (
           <button
-            className="absolute left-0 bg-purple-600 text-white p-2 rounded-full hover:bg-purple-700"
+            className="absolute left-0 bg-purple-600 text-white px-3 pt-1 pb-1.5 rounded-full hover:bg-purple-700"
             onClick={handleAnterior}
           >
             &#x3c;
           </button>
         )}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="mx-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {projetosFiltrados
             .slice(
               paginaAtual * itensPorPagina,
@@ -184,7 +184,7 @@ const Home = () => {
         </div>
         {projetos.length > 3 && (
           <button
-            className="absolute right-0 bg-purple-600 text-white p-2 rounded-full hover:bg-purple-700"
+            className="absolute right-0 bg-purple-600 text-white px-3 pt-1 pb-1.5 rounded-full hover:bg-purple-700"
             onClick={handleProximo}
           >
             &#x3e;
@@ -207,18 +207,12 @@ const Home = () => {
           ))}
         </div>
       )}
-
+      <br />
       {/* Botão flutuante */}
       {isAdmin && (
         <button
           onClick={() => navigate("/cadastrar-projeto")}
-          className="fixed bottom-8 right-8 flex justify-center items-center w-16 h-16 text-black rounded-full shadow-lg"
-          style={{
-            backgroundColor: "#FFFFFF",
-            fontSize: "28px",
-            lineHeight: "24px",
-          }}
-        >
+          className="fixed bottom-12 right-12 pb-1 flex justify-center items-center w-10 h-10 bg-purple-600 text-white text-2xl leading-6 rounded-full shadow-lg hover:bg-yellow-500 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-500">
           +
         </button>
       )}
