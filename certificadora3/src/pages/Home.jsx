@@ -131,7 +131,7 @@ const Home = () => {
       {/* Barra de Pesquisa */}
       <div className="text-center mt-8">
         <h2
-          className="text-2xl font-regular mb-6 text-center"
+          className="text-2xl font-regular mb-8 lg:mt-28 text-center"
           style={{
             fontFamily: "Abril Fatface",
             fontSize: "40px",
@@ -144,7 +144,7 @@ const Home = () => {
         <input
           type="text"
           placeholder="Buscar projeto..."
-          className="border border-gray-300 rounded-md py-2 px-4  w-3/5 md:w-1/2"
+          className="border lg:mb-12 border-gray-300 rounded-md py-2 px-4  w-3/5 md:w-1/2"
           value={busca}
           onChange={(e) => setBusca(e.target.value)}
         />
@@ -161,27 +161,27 @@ const Home = () => {
           </button>
         )}
         <div className="mx-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {projetosFiltrados
-            .slice(
-              paginaAtual * itensPorPagina,
-              (paginaAtual + 1) * itensPorPagina
-            )
-            .map((projeto) => (
-              <div
-                key={projeto.id}
-                className="bg-white rounded-md p-4 shadow-md w-60"
-              >
-                <h3 className="text-lg font-bold">{projeto.nome}</h3>
-                <p className="text-sm text-gray-600">{projeto.descricao}</p>
-                <p className="text-sm text-gray-500">
-                  Criado em: {projeto.dataCriacao ? new Date(projeto.dataCriacao.seconds * 1000).toLocaleDateString() : "Data indisponível"}
-                </p>
-                <button className="mt-4 bg-pink-500 text-white py-2 px-4 rounded-md">
-                  Acessar
-                </button>
-              </div>
-            ))}
-        </div>
+  {projetosFiltrados
+    .slice(paginaAtual * itensPorPagina, (paginaAtual + 1) * itensPorPagina)
+    .map((projeto) => (
+      <div key={projeto.id} className="bg-white rounded-md p-4 shadow-md w-60">
+        <h3 className="text-lg break-words font-bold">{projeto.nome}</h3>
+        <p className="text-sm break-words text-gray-600">{projeto.descricao}</p>
+        <p className="text-sm text-gray-500">
+          Criado em: {projeto.dataCriacao ? new Date(projeto.dataCriacao.seconds * 1000).toLocaleDateString() : "Data indisponível"}
+        </p>
+        
+        {/* Botão Acessar - Redireciona para a página do projeto */}
+        <button
+          onClick={() => navigate(`/projeto/${projeto.id}`)} // Navega para a página do projeto com o ID
+          className="mt-4 bg-pink-500 text-white py-2 px-4 rounded-md"
+        >
+          Acessar
+        </button>
+      </div>
+    ))}
+</div>
+
         {projetos.length > 3 && (
           <button
             className="absolute right-0 bg-purple-600 text-white px-3 pt-1 pb-1.5 rounded-full hover:bg-purple-700"

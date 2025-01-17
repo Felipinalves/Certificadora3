@@ -174,13 +174,13 @@ const ManageRoles = () => {
           Membros do Projeto
         </h2>
 
-        <div className="overflow-x-auto">
+        <div className="lg:w-3/5 align-middle mx-auto sm:w-1/8">
           <table className="min-w-full bg-white rounded-t-lg shadow-md">
             <thead style={{ backgroundColor: "#F8F3DF" }}>
               <tr>
                 <th className="p-3 text-left text-sm font-semibold rounded-tl-lg">Nome</th>
                 <th className="p-3 text-left text-sm font-semibold">Email</th>
-                <th className="p-3 text-left text-sm font-semibold">Cargo Atual</th>
+                <th className="p-3  text-left text-sm hidden lg:block font-semibold">Cargo Atual</th>
                 <th className="p-3 text-left text-sm font-semibold rounded-tr-lg">Novo Cargo</th>
               </tr>
             </thead>
@@ -188,8 +188,8 @@ const ManageRoles = () => {
               {currentUsers.map((user) => (
                 <tr key={user.id} className="border-t">
                   <td className="p-3 text-sm">{user.nome}</td>
-                  <td className="p-3 text-sm">{user.email}</td>
-                  <td className="p-3 text-sm">{user.cargo}</td>
+                  <td className="p-3 text-sm break-normal">{user.email}</td>
+                  <td className="p-3 hidden lg:block text-sm">{user.cargo}</td>
                   <td className="p-3">
                     <select
                       value={user.cargo}
