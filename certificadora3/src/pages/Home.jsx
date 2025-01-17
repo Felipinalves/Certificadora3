@@ -131,13 +131,8 @@ const Home = () => {
       {/* Barra de Pesquisa */}
       <div className="text-center mt-8">
         <h2
-          className="text-2xl font-regular mb-8 lg:mt-28 text-center"
-          style={{
-            fontFamily: "Abril Fatface",
-            fontSize: "40px",
-            color: "#FEC745",
-            textShadow: "-2px 2px #A85750",
-          }}
+          className="text-2xl font-abril mb-8 lg:mt-28 text-center text-[#FEC745]"
+          style={{ textShadow: "-2px 2px #A85750",}}
         >
           Acesse um projeto!
         </h2>

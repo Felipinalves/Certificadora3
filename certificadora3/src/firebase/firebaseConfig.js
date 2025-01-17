@@ -129,3 +129,5 @@ export const signInGoogle = async (e) => {
     alert("Erro ao fazer login com o Google. Tente novamente.");
   }
 };
+
+

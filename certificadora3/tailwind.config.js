@@ -4,6 +4,7 @@ module.exports = {
     extend: {
       fontFamily: {
         abril: ["Abril Fatface", "cursive"],
+        almarai: ['Almarai', 'sans-serif'],
       },
     },
   },
