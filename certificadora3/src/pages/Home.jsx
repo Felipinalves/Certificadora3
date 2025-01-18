@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { db } from "../firebase/firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import logo from "../images/logo.png";
 
 const Home = () => {
@@ -90,48 +90,54 @@ const Home = () => {
   return (
     <div className="bg-[#5F328D] min-h-screen">
       {/* Navbar */}
-      <nav
-        className="shadow-md py-4 px-6 flex justify-between items-center"
-        style={{ backgroundColor: "#441870" }}
-      >
-        <div className="flex items-center">
-          <img src={logo} alt="Logo do Projeto" className="w-10 h-10 mr-3" />
-          <h1
-            className="text-xl font-regular text-white"
-            style={{ fontFamily: "Abril Fatface" }}
-          >
-            Banco de Ideias
-          </h1>
-        </div>
-        {user && (
-          <div className="relative">
-            <img
-              src={user.photoURL || "https://via.placeholder.com/40"}
-              alt="Foto do usuário"
-              className="w-10 h-10 rounded-full border border-white cursor-pointer"
-              onClick={() => setMenuAberto(!menuAberto)}
-            />
-            {menuAberto && (
-              <div className="absolute right-0 mt-2 bg-white shadow-md rounded-md w-40">
-                <ul>
-                  <li
-                    className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
-                    onClick={handleLogout}
-                  >
-                    Sair
-                  </li>
-                </ul>
+      <nav className="shadow-md py-4 px-6 flex justify-between items-center" style={{ backgroundColor: "#441870" }}>
+          <div className="flex items-center">
+            <Link to="/home">
+              <img src={logo} alt="Logo do Projeto" className="w-10 h-10 cursor-pointer" />
+            </Link>
+            <h1 className="text-xl font-regular text-white ml-3" style={{ fontFamily: "Abril Fatface" }}>
+              Banco de Ideias
+            </h1>
+          </div>
+          
+          <div className="flex items-center space-x-6">
+            {isAdmin && (
+              <Link 
+                to="/manage-roles"
+                className="text-white hover:text-yellow-400 transition-colors duration-200"
+              >
+                Controle de Usuários
+              </Link>
+            )}
+            {user && (
+              <div className="relative">
+                <img
+                  src={user.photoURL || "https://via.placeholder.com/40"}
+                  alt="Foto do usuário"
+                  className="w-10 h-10 rounded-full border border-white cursor-pointer"
+                  onClick={() => setMenuAberto(!menuAberto)}
+                />
+                {menuAberto && (
+                  <div className="absolute right-0 mt-2 bg-white shadow-md rounded-md w-40">
+                    <ul>
+                      <li
+                        className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
+                        onClick={handleLogout}
+                      >
+                        Sair
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
           </div>
-        )}
-      </nav>
-
+        </nav>
 
       {/* Barra de Pesquisa */}
       <div className="text-center mt-8">
         <h2
-          className="text-2xl font-abril mb-8 lg:mt-28 text-center text-[#FEC745]"
+          className="text-4xl font-abril mb-8 lg:mt-18 text-center text-[#FEC745]"
           style={{ textShadow: "-2px 2px #A85750",}}
         >
           Acesse um projeto!

@@ -46,7 +46,7 @@ const CadastrarProjeto = () => {
         className="shadow-md py-4 px-6 flex justify-between items-center"
         style={{ backgroundColor: "#441870" }}
       >
-        <div className="flex items-center cursor-pointer" onClick={() => navigate("/")}>
+        <div className="flex items-center cursor-pointer" onClick={() => navigate("/home")}>
           <img src={logo} alt="Logo do Projeto" className="w-10 h-10 mr-3" />
           <h1
             className="text-xl font-regular text-white"
