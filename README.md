@@ -67,6 +67,9 @@ O objetivo do sistema é permitir que os usuários cadastrem ideias de projetos,
 ### Funcionalidades Desenvolvidas
 - Login e Cadastro de Usuários
 - Cadastro de projetos com nome e descrição;
+- Cadastro de ideias
+- Visualização e listagem de ideias;
+- Votação nas ideias existentes e apresentação das melhores ideias
 - Visualização e listagem de projetos;
 - Gerenciamento dos cargos dos usuários.
 
@@ -80,8 +83,12 @@ O objetivo do sistema é permitir que os usuários cadastrem ideias de projetos,
       Clique em "Salvar".
    - Visualizar Projetos:
       Após salvar, você será redirecionado para a página inicial, onde todos os projetos serão listados.
-- Acesse o seguinte link para analisar os usuários já cadastrados na plataforma e poder alterar seus cargos:
-     http://localhost:3000/manage-roles
+  - Acesse o seguinte link para analisar os usuários já cadastrados na plataforma e poder alterar seus cargos:
+  http://localhost:3000/manage-roles
+- Cadastrar uma ideia:
+  Ao acessar um projeto, você poderá adicionar uma ideia a ele, e após salvar, essa será listada na tela desse projeto.
+- Votação nas ideias existentes:
+  A partir da listagem de todas as ideias dadas dentro do projeto, é possível votar em "Negar", "Média" ou "Apoiar".
 
 ### Contas de Acesso Padrão
 O sistema possui possibilidade de cadastro e login, então qualquer usuário pode testar as funcionalidades a partir do seu cadastramento na plataforma.
@@ -101,7 +108,7 @@ Este projeto foi criado como parte de um trabalho acadêmico para demonstrar hab
 
 Para facilitar o processo de instalação das dependências e execução do projeto, criamos um vídeo tutorial explicativo. Confira o passo a passo no YouTube:  
 
-🔗 [Como Instalar as Dependências e Executar o Banco de Ideias](https://youtu.be/kR4PoMzAVgM)
+🔗 [Como Instalar as Dependências e Executar o Banco de Ideias]()
 
 O vídeo cobre os seguintes tópicos:
 1. Clonando o repositório.
