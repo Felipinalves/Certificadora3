@@ -13,6 +13,8 @@ const Projetos = () => {
     const [user, setUser] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
     const [curtidas, setCurtidas] = useState([]);
+    const [medias, setMedias] = useState([]);
+    const [negadas, setNegadas] = useState([]);
     const [melhoresIdeias, setMelhoresIdeias] = useState([]);
     const [menuAberto, setMenuAberto] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
@@ -55,7 +57,6 @@ const Projetos = () => {
         try {
           const ideiasRef = collection(db, "projetos", id, "ideias");
           const ideiasSnap = await getDocs(ideiasRef);
-          console.log(ideiasSnap.docs);
   
           const ideiasData = ideiasSnap.docs.map((doc) => ({
             id: doc.id,
@@ -90,6 +91,8 @@ const Projetos = () => {
           medias: userData.medias || []
         });
         setCurtidas(userData.curtidas || []);
+        setMedias(userData.medias || []);
+        setNegadas(userData.negadas || []);
       }
     }
   };
@@ -148,12 +151,14 @@ const handleNegar = async (ideiaId) => {
       if (votosUsuario.curtidas.includes(ideiaId)) {
         novosVotos.curtidas = votosUsuario.curtidas.filter(id => id !== ideiaId);
         updateData.curtidas = ideiaData.curtidas - 1;
+        setCurtidas(novosVotos.curtidas);
       }
       
       // Se tinha voto média, remove
       if (votosUsuario.medias.includes(ideiaId)) {
         novosVotos.medias = votosUsuario.medias.filter(id => id !== ideiaId);
         updateData.medias = ideiaData.medias - 1;
+        setMedias(novosVotos.medias);
       }
 
       // Adiciona voto negativo
@@ -163,7 +168,7 @@ const handleNegar = async (ideiaId) => {
       await updateDoc(ideiaRef, updateData);
       await updateDoc(userRef, novosVotos);
       setVotosUsuario(novosVotos);
-      setCurtidas(novosVotos.curtidas);
+      setNegadas(novosVotos.negadas);
 
       // Atualiza a lista de ideias
       await atualizarIdeias();
@@ -188,23 +193,25 @@ const handleMedia = async (ideiaId) => {
       if (votosUsuario.curtidas.includes(ideiaId)) {
         novosVotos.curtidas = votosUsuario.curtidas.filter(id => id !== ideiaId);
         updateData.curtidas = ideiaData.curtidas - 1;
+        setCurtidas(novosVotos.curtidas);
       }
       
       // Se tinha voto negativo, remove
       if (votosUsuario.negadas.includes(ideiaId)) {
         novosVotos.negadas = votosUsuario.negadas.filter(id => id !== ideiaId);
         updateData.negadas = ideiaData.negadas - 1;
+        setNegadas(novosVotos.negadas);
       }
-
+      
       // Adiciona voto média
       novosVotos.medias = [...votosUsuario.medias, ideiaId];
       updateData.medias = (ideiaData.medias || 0) + 1;
-
+      
       await updateDoc(ideiaRef, updateData);
       await updateDoc(userRef, novosVotos);
       setVotosUsuario(novosVotos);
-      setCurtidas(novosVotos.curtidas);
-
+      setMedias(novosVotos.medias);
+      
       // Atualiza a lista de ideias
       await atualizarIdeias();
     } catch (error) {
@@ -228,12 +235,14 @@ const handleCurtir = async (ideiaId) => {
       if (votosUsuario.negadas.includes(ideiaId)) {
         novosVotos.negadas = votosUsuario.negadas.filter(id => id !== ideiaId);
         updateData.negadas = ideiaData.negadas - 1;
+        setNegadas(novosVotos.negadas);
       }
       
       // Se tinha voto média, remove
       if (votosUsuario.medias.includes(ideiaId)) {
         novosVotos.medias = votosUsuario.medias.filter(id => id !== ideiaId);
         updateData.medias = ideiaData.medias - 1;
+        setMedias(novosVotos.medias);
       }
 
       // Adiciona curtida
@@ -442,7 +451,7 @@ const atualizarIdeias = async () => {
           </div>
 
           {/* Lista completa de ideias */}    
-          <div className="mt-12 px-6 lg:px-24">
+          <div className="mt-12 px-6 pb-12 lg:px-24">
           <h3 className="text-2xl text-left mb-6" style={{ fontFamily: "Abril Fatface" }}>
             Todas as Ideias
           </h3>
@@ -454,15 +463,25 @@ const atualizarIdeias = async () => {
                 <div className="flex justify-between items-center mt-4">
                   <button 
                     onClick={() => handleNegar(ideia.id)}
-                    className="bg-red-400 text-white px-4 py-2 rounded-full hover:bg-red-500"
-                  >
+                    className={`${
+                      negadas.includes(ideia.id) 
+                        ? "bg-gray-500" 
+                        : "bg-red-400 hover:bg-red-500"
+                    } text-white px-4 py-2 rounded-full`}
+                    disabled={negadas.includes(ideia.id)}
+                    >
                     Negar
                   </button>
                   <button 
                     onClick={() => handleMedia(ideia.id)}
-                    className="bg-yellow-400 text-white px-4 py-2 rounded-full hover:bg-yellow-500"
-                  >
-                    Media
+                    className={`${
+                      medias.includes(ideia.id) 
+                        ? "bg-gray-500" 
+                        : "bg-yellow-400 hover:bg-yellow-500"
+                    } text-white px-4 py-2 rounded-full`}
+                    disabled={medias.includes(ideia.id)}
+                 >
+                    {medias.includes(medias.id) ? "Achei Meh" : "Meh"}
                   </button>
                   <button
                     onClick={() => handleCurtir(ideia.id)}
