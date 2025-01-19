@@ -470,7 +470,7 @@ const atualizarIdeias = async () => {
                     } text-white px-4 py-2 rounded-full`}
                     disabled={negadas.includes(ideia.id)}
                     >
-                    Negar
+                    Não gostei
                   </button>
                   <button 
                     onClick={() => handleMedia(ideia.id)}
@@ -481,7 +481,7 @@ const atualizarIdeias = async () => {
                     } text-white px-4 py-2 rounded-full`}
                     disabled={medias.includes(ideia.id)}
                  >
-                    {medias.includes(medias.id) ? "Achei Meh" : "Meh"}
+                    {medias.includes(medias.id) ? "Achei média" : "Achei Média"}
                   </button>
                   <button
                     onClick={() => handleCurtir(ideia.id)}
@@ -492,7 +492,7 @@ const atualizarIdeias = async () => {
                     } text-white px-4 py-2 rounded-full`}
                     disabled={curtidas.includes(ideia.id)}
                   >
-                    {curtidas.includes(ideia.id) ? "Já apoiei" : "Apoiar"}
+                    {curtidas.includes(ideia.id) ? "Apoiar" : "Apoiar"}
                   </button>
                 </div>
               </div>
