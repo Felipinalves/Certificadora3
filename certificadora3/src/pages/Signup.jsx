@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { auth } from "../firebase/firebaseConfig";
+import { auth, db } from "../firebase/firebaseConfig";
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { collection, doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; // Ícones de visibilidade
-import { FcGoogle } from "react-icons/fc"; // Ícone do Google
-
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { FcGoogle } from "react-icons/fc";
 import signupBackground from "../images/signup_background.png";
 import logo from "../images/logo.png";
 
@@ -18,6 +18,21 @@ const Signup = () => {
   const navigate = useNavigate();
   const googleProvider = new GoogleAuthProvider();
 
+  const saveUserToFirestore = async (user, displayName = null) => {
+    const userRef = doc(collection(db, "usuarios"), user.uid);
+    try {
+      await setDoc(userRef, {
+        nome: displayName || user.displayName || "Usuário",
+        email: user.email,
+        foto: user.photoURL || "",
+        cargo: "membro externo",
+      });
+    } catch (err) {
+      console.error("Erro ao salvar usuário:", err);
+      throw err;
+    }
+  };
+
   const handleSignup = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
@@ -26,8 +41,10 @@ const Signup = () => {
     }
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      navigate("/"); // Redireciona após cadastro bem-sucedido
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      await saveUserToFirestore(user, name);
+      navigate("/");
     } catch (err) {
       setError("Erro ao criar conta. Tente novamente.");
     }
@@ -35,7 +52,9 @@ const Signup = () => {
 
   const handleGoogleSignup = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      await saveUserToFirestore(user);
       navigate("/");
     } catch (err) {
       setError("Erro ao criar conta com o Google.");

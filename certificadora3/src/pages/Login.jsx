@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth, db } from "../firebase/firebaseConfig"; // Incluindo db para Firestore
-import { collection, doc, getDoc, setDoc } from "firebase/firestore"; // Métodos Firestore
+import { auth, db } from "../firebase/firebaseConfig";
+import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
-
 import background from "../images/login_background.png";
 import logo from "../images/logo.png";
 
@@ -17,46 +16,50 @@ const Login = () => {
   const navigate = useNavigate();
   const googleProvider = new GoogleAuthProvider();
 
-  // Função para verificar e salvar usuário no Firestore
-  const saveUserToFirestore = async (user) => {
+  const saveUserToFirestore = async (user, displayName = null) => {
     const userRef = doc(collection(db, "usuarios"), user.uid);
     const userSnap = await getDoc(userRef);
 
-    // Verifica se o usuário já existe no Firestore
     if (!userSnap.exists()) {
       try {
         await setDoc(userRef, {
-          nome: user.displayName || "Usuário",
+          nome: displayName || user.displayName || "Usuário",
           email: user.email,
           foto: user.photoURL || "",
-          cargo: "membro externo", // Cargo padrão
+          cargo: "membro externo",
         });
-        console.log("Usuário salvo com sucesso.");
       } catch (err) {
         console.error("Erro ao salvar usuário:", err);
       }
     }
   };
 
-  // Login com email e senha
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      await saveUserToFirestore(user); // Verifica e salva usuário
+      
+      // Buscar dados do usuário no Firestore
+      const userRef = doc(collection(db, "usuarios"), user.uid);
+      const userSnap = await getDoc(userRef);
+      
+      if (userSnap.exists()) {
+        const userData = userSnap.data();
+        user.displayName = userData.nome;
+      }
+      
       navigate("/home");
     } catch (err) {
       setError("Falha ao fazer login. Verifique suas credenciais.");
     }
   };
 
-  // Login com Google
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      await saveUserToFirestore(user); // Verifica e salva usuário
+      await saveUserToFirestore(user);
       navigate("/home");
     } catch (err) {
       setError("Falha ao fazer login com o Google.");
