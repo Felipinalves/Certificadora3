@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { db } from "../firebase/firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
+import { getProjects } from "../controller/ProjectController";
+import { checkAdmin } from "../controller/UserController"
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate, Link } from "react-router-dom";
 import logo from "../images/logo.png";
@@ -20,12 +20,7 @@ const Home = () => {
   useEffect(() => {
     const fetchProjetos = async () => {
       try {
-        const projetosSnapshot = await getDocs(collection(db, "projetos"));
-        const projetosData = projetosSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setProjetos(projetosData);
+        setProjetos(await getProjects());
       } catch (error) {
         console.error("Erro ao buscar projetos:", error);
       }
@@ -35,27 +30,16 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) =>  {
       setUser(user);
 
       // Verifica se o usuário é administrador sem salvar dados no Firebase
       if (user) {
-        const checkAdmin = async () => {
-          try {
-            const usuariosSnapshot = await getDocs(collection(db, "usuarios"));
-            const userData = usuariosSnapshot.docs
-              .map((doc) => ({ id: doc.id, ...doc.data() }))
-              .find((u) => u.email === user.email);
-
-            if (userData && userData.cargo === "administrador") {
-              setIsAdmin(true);
-            }
-          } catch (error) {
-            console.error("Erro ao verificar cargo do usuário:", error);
-          }
-        };
-
-        checkAdmin();
+        try {
+          setIsAdmin(await checkAdmin(user))
+        } catch (error) {
+          console.error("Erro ao verificar cargo do usuário:", error);
+        }
       }
     });
 

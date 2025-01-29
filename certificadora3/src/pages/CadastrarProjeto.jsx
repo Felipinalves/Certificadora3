@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { db } from "../firebase/firebaseConfig";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { createProject } from "../controller/ProjectController";
 import { useNavigate } from "react-router-dom";
 import logo from "../images/logo.png";
 
@@ -19,13 +18,7 @@ const CadastrarProjeto = () => {
     setLoading(true);
   
     try {
-      console.log("Salvando projeto...");
-      const docRef = await addDoc(collection(db, "projetos"), {
-        nome,
-        descricao,
-        dataCriacao: serverTimestamp(),
-      });
-      console.log("Projeto salvo com ID:", docRef.id);
+      await createProject(nome, descricao)
       navigate("/home");
     } catch (error) {
       console.error("Erro ao salvar projeto:", error.message);

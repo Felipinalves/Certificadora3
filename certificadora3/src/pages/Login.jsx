@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth, db } from "../firebase/firebaseConfig";
-import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { signInEmail, signInGoogle } from "../controller/UserController";
 import { useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
@@ -14,41 +12,12 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const googleProvider = new GoogleAuthProvider();
-
-  const saveUserToFirestore = async (user, displayName = null) => {
-    const userRef = doc(collection(db, "usuarios"), user.uid);
-    const userSnap = await getDoc(userRef);
-
-    if (!userSnap.exists()) {
-      try {
-        await setDoc(userRef, {
-          nome: displayName || user.displayName || "Usuário",
-          email: user.email,
-          foto: user.photoURL || "",
-          cargo: "membro externo",
-        });
-      } catch (err) {
-        console.error("Erro ao salvar usuário:", err);
-      }
-    }
-  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      
-      // Buscar dados do usuário no Firestore
-      const userRef = doc(collection(db, "usuarios"), user.uid);
-      const userSnap = await getDoc(userRef);
-      
-      if (userSnap.exists()) {
-        const userData = userSnap.data();
-        user.displayName = userData.nome;
-      }
-      
+      await signInEmail(email, password)      
       navigate("/home");
     } catch (err) {
       setError("Falha ao fazer login. Verifique suas credenciais.");
@@ -57,9 +26,7 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
-      await saveUserToFirestore(user);
+      await signInGoogle()
       navigate("/home");
     } catch (err) {
       setError("Falha ao fazer login com o Google.");

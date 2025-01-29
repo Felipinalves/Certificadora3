@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { auth, db } from "../firebase/firebaseConfig";
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { signUpEmail, signInGoogle } from "../controller/UserController";
 import { useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
@@ -16,22 +14,6 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const googleProvider = new GoogleAuthProvider();
-
-  const saveUserToFirestore = async (user, displayName = null) => {
-    const userRef = doc(collection(db, "usuarios"), user.uid);
-    try {
-      await setDoc(userRef, {
-        nome: displayName || user.displayName || "Usuário",
-        email: user.email,
-        foto: user.photoURL || "",
-        cargo: "membro externo",
-      });
-    } catch (err) {
-      console.error("Erro ao salvar usuário:", err);
-      throw err;
-    }
-  };
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -41,9 +23,7 @@ const Signup = () => {
     }
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      await saveUserToFirestore(user, name);
+      await signUpEmail(name, email, password)
       navigate("/");
     } catch (err) {
       setError("Erro ao criar conta. Tente novamente.");
@@ -52,10 +32,8 @@ const Signup = () => {
 
   const handleGoogleSignup = async () => {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
-      await saveUserToFirestore(user);
-      navigate("/");
+      await signInGoogle();
+      navigate("/home");
     } catch (err) {
       setError("Erro ao criar conta com o Google.");
     }
